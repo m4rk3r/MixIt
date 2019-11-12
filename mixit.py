@@ -1,38 +1,10 @@
 from __future__ import unicode_literals
 import re
-import subprocess
 import sys
 import youtube_dl
 
 from os import mkdir, path
 from pydub import AudioSegment
-
-
-FFMPEG = subprocess.check_output(['which', 'ffmpeg']).strip()
-mix_name = path.splitext(sys.argv[1])[0]
-
-opts = {
-    'outtmpl': '{}/%(id)s.%(ext)s'.format(mix_name),
-    'format': 'bestaudio/best',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '320',
-    }],
-}
-
-id3 = {
-    'title': sys.argv[2] if len(sys.argv) > 2 else mix_name
-}
-
-config = {
-    'format': 'mp3',
-    'bitrate': '320k',
-    'tags': id3
-}
-
-if not path.exists(mix_name):
-    mkdir(mix_name)
 
 
 def get_id(s):
@@ -48,31 +20,57 @@ def get_crossfade(s):
     return 0
 
 
-with open(sys.argv[1], 'r') as f:
-    songs = f.readlines()
+if __name__ == '__main__':
+    mix_name = path.splitext(sys.argv[1])[0]
 
-    with youtube_dl.YoutubeDL(opts) as ydl:
-        ydl.download([re.sub(r',\d+$', '', s) for s in songs])
+    opts = {
+        'outtmpl': '{}/%(id)s.%(ext)s'.format(mix_name),
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '320',
+        }],
+    }
 
-    mix = None
-    cf = 0
+    id3 = {
+        'title': sys.argv[2] if len(sys.argv) > 2 else mix_name
+    }
 
-    for song in songs:
-        song_file = AudioSegment.from_file(
-            path.join(mix_name, '%s.mp3' % get_id(song)))
+    config = {
+        'format': 'mp3',
+        'bitrate': '320k',
+        'tags': id3
+    }
 
-        if not mix:
-            mix = song_file
-        else:
-            mix = mix.append(song_file, crossfade=cf)
+    if not path.exists(mix_name):
+        mkdir(mix_name)
 
-        # set crossfade for mixing with the next song
-        cf = get_crossfade(song)
+    with open(sys.argv[1], 'r') as f:
+        songs = f.readlines()
 
-    with open('%s.mp3' % mix_name, 'wb') as out:
-        if len(sys.argv) > 3:
-            config['cover'] = sys.argv[3]
+        with youtube_dl.YoutubeDL(opts) as ydl:
+            ydl.download([re.sub(r',\d+$', '', s) for s in songs])
 
-        mix.export(out, **config)
+        mix = None
+        cf = 0
 
-    print('done!')
+        for song in songs:
+            song_file = AudioSegment.from_file(
+                path.join(mix_name, '%s.mp3' % get_id(song)))
+
+            if not mix:
+                mix = song_file
+            else:
+                mix = mix.append(song_file, crossfade=cf)
+
+            # set crossfade for mixing with the next song
+            cf = get_crossfade(song)
+
+        with open('%s.mp3' % mix_name, 'wb') as out:
+            if len(sys.argv) > 3:
+                config['cover'] = sys.argv[3]
+
+            mix.export(out, **config)
+
+        print('done!')

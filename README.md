@@ -1,5 +1,5 @@
 ## ~ MixIt ~
-A very simple tool for composing a mix from youtube videos.
+A very basic tool for composing a mix from youtube videos.
 
 ### How to use:
 + install requirements the first time `pip install -e requirements.txt`
@@ -13,7 +13,7 @@ https://www.youtube.com/watch?v=sCzJQRVbWtE
 ```
  + you can also add optional crossfade after a track by adding a comma and the duration in seconds:
 
-     ```
+ ```
 https://www.youtube.com/watch?v=17yWeynOfOI
 https://www.youtube.com/watch?v=s3gge17rub0,5
 https://www.youtube.com/watch?v=sCzJQRVbWtE

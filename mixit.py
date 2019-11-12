@@ -20,8 +20,12 @@ def get_crossfade(s):
     return 0
 
 
-if __name__ == '__main__':
-    mix_name = path.splitext(sys.argv[1])[0]
+def build(in_file=None, title=None, cover=None):
+    if not in_file and len(sys.argv) < 2:
+        print('Oop, requires at least one argument.. (a text file to work on)')
+        return
+
+    mix_name = path.splitext(in_file)[0] if in_file else path.splitext(sys.argv[1])[0]
 
     opts = {
         'outtmpl': '{}/%(id)s.%(ext)s'.format(mix_name),
@@ -33,20 +37,18 @@ if __name__ == '__main__':
         }],
     }
 
-    id3 = {
-        'title': sys.argv[2] if len(sys.argv) > 2 else mix_name
-    }
-
     config = {
         'format': 'mp3',
         'bitrate': '320k',
-        'tags': id3
+        'tags': {
+            'title': title or (sys.argv[2] if len(sys.argv) > 2 else mix_name)
+        }
     }
 
     if not path.exists(mix_name):
         mkdir(mix_name)
 
-    with open(sys.argv[1], 'r') as f:
+    with open(in_file or sys.argv[1], 'r') as f:
         songs = f.readlines()
 
         with youtube_dl.YoutubeDL(opts) as ydl:
@@ -68,9 +70,13 @@ if __name__ == '__main__':
             cf = get_crossfade(song)
 
         with open('%s.mp3' % mix_name, 'wb') as out:
-            if len(sys.argv) > 3:
-                config['cover'] = sys.argv[3]
+            if cover or len(sys.argv) > 3:
+                config['cover'] = cover or sys.argv[3]
 
             mix.export(out, **config)
 
         print('done!')
+
+
+if __name__ == '__main__':
+    build()

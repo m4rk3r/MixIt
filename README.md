@@ -1,7 +1,7 @@
 ## ~ MixIt ~
 A very basic tool for composing a mix from youtube videos.
 
-### How to use:
+### How to use as CLI:
 + install requirements the first time `pip install -e requirements.txt`
   + also requires [ffmpeg](https://github.com/ytdl-org/youtube-dl/blob/master/README.md#do-i-need-any-other-programs)
 + create a text file with youtube videos on each line, e.g. `subtle-sounds.txt`:
@@ -24,3 +24,8 @@ https://www.youtube.com/watch?v=sCzJQRVbWtE
   + The script will create a directory matching the input text filename, download the videos as mp3s via [youtube_dl](https://github.com/ytdl-org/youtube-dl/) and then concatenate into one final mix matching the input filename.
 
 + 🎶 enjoy 🔊
+
+
+### How to use as a library:
++ `from mixit import build`
++ `build('test.txt', 'my test mix', '~/Desktop/cover.jpg')`

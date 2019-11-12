@@ -9,7 +9,7 @@ from pydub import AudioSegment
 
 def get_id(s):
     """Get youtube id e.g. &v=< id >"""
-    return re.search(r'\?v=(\w+)(?:,\d+)?$', s).group(1)
+    return re.search(r'\?v=([\w\d\-_]+)(?:,\d+)?$', s).group(1)
 
 
 def get_crossfade(s):

@@ -52,7 +52,9 @@ def build(in_file=None, title=None, cover=None):
         songs = f.readlines()
 
         with youtube_dl.YoutubeDL(opts) as ydl:
-            ydl.download([re.sub(r',\d+$', '', s) for s in songs])
+            for song in songs:
+                if not path.exists(path.join(mix_name, '%s.mp3' % get_id(song))):
+                    ydl.download([re.sub(r',\d+$', '', song)])
 
         mix = None
         cf = 0

@@ -27,5 +27,5 @@ https://www.youtube.com/watch?v=sCzJQRVbWtE
 
 
 ### How to use as a library:
-+ `from mixit import build`
-+ `build('test.txt', 'my test mix', '~/Desktop/cover.jpg')`
++ Import the build function `from mixit import build`
++ run `build('subtle-sounds.txt', '~ Subtle Sounds ~', '~/Desktop/cover.jpg')`

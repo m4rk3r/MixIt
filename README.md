@@ -1,5 +1,6 @@
 ## ~ MixIt ~
-A very basic tool for composing a mix from youtube videos.
+A simple tool for composing a mix from youtube videos.
+
 
 ### How to use as CLI:
 + install requirements the first time `pip install -e requirements.txt`
@@ -23,7 +24,16 @@ https://www.youtube.com/watch?v=sCzJQRVbWtE
   + the command is `python mixit.py  <mix file> <id3 title> <cover art>` both title and cover are optional.
   + The script will create a directory matching the input text filename, download the videos as mp3s via [youtube_dl](https://github.com/ytdl-org/youtube-dl/) and then concatenate into one final mix matching the input filename.
 
-+ 🎶 enjoy 🔊
+
+### How to use as App:
+Download the osx app from [the releases tab](https://github.com/m4rk3r/MixIt/releases/latest).
+
+Create the text file mix as you would with the CLI, and then drag and drop on the unzipped app. The mix will be created in the same direcotry that the text file was dragged from.
+
+![Demo gif](http://duskjacket.com/static/demo.gif)
+
+
+#### 🎶 enjoy 🔊
 
 
 ### How to use as a library:

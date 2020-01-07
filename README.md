@@ -20,6 +20,8 @@ https://www.youtube.com/watch?v=s3gge17rub0,5
 https://www.youtube.com/watch?v=sCzJQRVbWtE
 ```
 
+> [here's a full example](https://gist.github.com/m4rk3r/48a4fff6ae488bfd4c624bb745627995) with some more advanced fadding
+
 + make it happen `python mixit.py subtle-sounds.txt "~ Subtle Sounds ~" ~/Desktop/cover.jpg`
   + the command is `python mixit.py  <mix file> <id3 title> <cover art>` both title and cover are optional.
   + The script will create a directory matching the input text filename, download the videos as mp3s via [youtube_dl](https://github.com/ytdl-org/youtube-dl/) and then concatenate into one final mix matching the input filename.
